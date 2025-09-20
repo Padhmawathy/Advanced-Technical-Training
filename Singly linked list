@@ -1,0 +1,42 @@
+class Node {
+    int data;
+    Node next;
+    Node(int key) {
+        data = key;
+        next = null;
+    }
+}
+
+class Solution {
+    public Node reverseKGroup(Node head, int k) {
+        Node current = head;
+        Node prev = null;
+        Node next = null;
+        int count = 0;
+        
+        // Count number of nodes in the list segment
+        Node temp = head;
+        int len = 0;
+        while (temp != null) {
+            len++;
+            temp = temp.next;
+        }
+        // If less than k nodes, set k = len
+        if (len < k) {
+            k = len;
+        }
+        // Reverse k nodes
+        while (current != null && count < k) {
+            next = current.next;
+            current.next = prev;
+            prev = current;
+            current = next;
+            count++;
+        }
+        // Recursive call for the next part
+        if (next != null) {
+            head.next = reverseKGroup(next, k);
+        }
+        return prev;
+    }
+}
